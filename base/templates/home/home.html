@@ -1,0 +1,8 @@
+{% extends "home/layout.html" %} {% block body %}
+<h1>hwllo world</h1>
+{%for room in rooms%}
+<div>
+  <h1>{{room.id}}</h1>
+  : <a href="/Room/{{room.id}}"> <span>{{room.name}}</span> </a>
+</div>
+{%endfor%} {% endblock body %}
