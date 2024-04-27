@@ -1,19 +1,52 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
+from .forms import RoomForm
+from .models import Room
 
 # Create your views here.
-room=[
-    {'id': 1, 'name': 'lets learn python'},
-    {'id': 2, 'name': 'Design with me '},
-    {'id': 3, 'name': 'Frontend development'},
-]
+# room=[
+#     {'id': 1, 'name': 'lets learn python'},
+#     {'id': 2, 'name': 'Design with me '},
+#     {'id': 3, 'name': 'Frontend development'},
+# ]
 def home(request):
-    context = {'rooms': room}
+    rooms = Room.objects.all()
+    context = {'rooms': rooms}
     return render (request, 'home/home.html', context)
 
-def Room(request,pk):
-    rooms = None
-    for i in room:
-        if i['id'] == int(pk):
-            rooms = i
-    context = {'room': rooms}
+def room(request,pk):
+    room= Room.objects.get(id=pk)
+    context = {'room': room}
     return render(request, 'home/room.html', context)
+
+def createRoom(request):
+    form = RoomForm()
+    if request.method == "POST":
+        form = RoomForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('home') 
+    else:
+        form = RoomForm()
+    context={'form': form}
+    return render(request, 'home/room_form.html', context)
+
+def updateRoom(request,pk):
+    room = Room.objects.get(id=pk) 
+    form = RoomForm(instance=room)
+    if request.method == "POST":
+        form = RoomForm(request.POST, instance=room)
+        if form.is_valid():
+            form.save()
+            return redirect('home')
+    else:
+        form = RoomForm(instance=room)
+    context={"form": form}
+    return render(request, 'home/room_form.html', context)
+
+
+def deleteRoom(request,pk):
+    room = Room.objects.get(id=pk)
+    if request.method == "POST":
+        room.delete()
+        return redirect('home') 
+    return render(request, 'home/delete.html', {'obj': room})

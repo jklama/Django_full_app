@@ -1,0 +1,8 @@
+{% extends "home/layout.html" %} {% block body %}
+<div>
+  <form method="POST" action="">
+    {% csrf_token %} {{form}}
+    <input type="submit" value="Submit" />
+  </form>
+</div>
+{% endblock body %}
