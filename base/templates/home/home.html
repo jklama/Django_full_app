@@ -1,14 +1,21 @@
 {% extends "home/layout.html" %} {% block body %}
-<h1>hwllo world</h1>
-<div>
-  <a href="{% url 'createRoom' %}">Create Room </a>
+
+<div class="home-container">
+  <div class="">
+    <h3 class="">Browse Topics</h3>
+    <hr />
+  </div>
+  <div>
+    <a href="{% url 'createRoom' %}">Create Room </a>
+  </div>
+  {%for room in rooms%}
+  <div>
+    <a href="{%url 'updateRoom' room.id %}"> Edit</a>
+    <a href="{%url 'deleteRoom' room.id %}"> Delete</a>
+    <span>@{{room.host.username}}</span>
+    <h1>{{room.id}}</h1>
+    : <a href="{% url 'room' room.id%}"> <span>{{room.name}}</span> </a>
+  </div>
 </div>
-{%for room in rooms%}
-<div>
-  <a href="{%url 'updateRoom' room.id %}"> Edit</a>
-  <a href="{%url 'deleteRoom' room.id %}"> Delete</a>
-  <span>@{{room.host.username}}</span>
-  <h1>{{room.id}}</h1>
-  : <a href="{% url 'room' room.id%}"> <span>{{room.name}}</span> </a>
-</div>
+
 {%endfor%} {% endblock body %}
