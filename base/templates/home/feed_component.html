@@ -6,7 +6,7 @@
     <a href="{%url 'deleteRoom' room.id %}"> Delete</a>
     {% endif %}
 
-    <span>@{{room.host.username}}</span>
+    <a href="{% url 'user-profile' room.host.id %}">@{{room.host.username}}</a>
     <h1>{{room.id}}</h1>
     :
     <a href="{% url 'room' room.id%}"> <span>{{room.topic.name}}</span> </a>
